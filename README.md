@@ -1,10 +1,10 @@
 C++ Game (D4) – Text-Based Zombie Game
 
-Protagonist is trapped in a mansion, must defeat zombies of different strength to progress. Can acquire new weapons and healing items. Must defeat final boss to escape / win. Loses the game if defeated by an enemy.
+Protagonist is trapped in an underground complex, must defeat zombies of different strength to progress. Can acquire new weapons and healing items. Must defeat final boss to escape / win. Loses the game if defeated by an enemy.
 
 Things we need:
 Protagonist, 
-Mansion,
+Complex,
 Zombies,
 Weapons,
 Inventory system,
