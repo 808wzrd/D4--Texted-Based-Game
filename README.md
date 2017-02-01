@@ -2,10 +2,15 @@ Undead Mansion – Text-Based Game
 
 Group D4
 SLAVEV, Kristiyan
+
 ABOAGYE, Derick Nana Agyei
+
 MAIORESCU, Alexandru
+
 HODGSON, Frank
+
 DZEDRAVICIUS, Gytis
+
 
 Necessities
 Named character (User-input) 
