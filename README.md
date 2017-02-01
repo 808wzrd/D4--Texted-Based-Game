@@ -13,17 +13,28 @@ DZEDRAVICIUS, Gytis
 
 
 Necessities
-Named character (User-input) 
+
+Named character (User-input)
+
 Inventory system
+
 Pickups – healing items, new weapons
+
 House map 
+
 Enemies
+
 Combat system (RNG damage output)
 
+
 Luxuries
+
 Second character (Different starting stats == More health, less damage output vice versa)
+
 Crafting system
+
 Different route through house
+
 Multiple enemy types (zombie dogs, zombie crows)
 
 Synopsis
