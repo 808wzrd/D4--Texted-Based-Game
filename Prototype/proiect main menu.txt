@@ -1,0 +1,57 @@
+#include<iostream>
+#include<string>
+#include "windows.h"
+using namespace std;
+
+int main()
+{int choice;
+
+while()
+{
+
+
+cout<<":::Main Menu:::"<< endl;
+cout<< " 1 - Start the game.\n";
+cout<< " 2 - Load game.\n";
+cout<< " 3 - Exit.\n";
+cout<< " Enter your choice and press return: ";
+cin >> choice;
+
+if(choice==1)
+	{
+	system("CLS");//all system commands are only used by windows,sorry mac :)
+	cout<<"Starting game";
+	system("PAUSE");
+	system("CLS");
+	}
+else if (choice==2)
+	{
+	system("CLS");
+	cout<<"Loading game":
+	system("PAUSE");
+	system("CLS");
+	}
+else if (choice==3)
+	{
+	return 0;
+	
+
+	}
+else if (choice>3||choice<1)//user input validation
+	{
+	system("CLS");
+	cout<<"Invalid input"<<endl;
+	system("PAUSE");
+	system("CLS");
+
+	}
+else
+	{
+	system("CLS");
+	cout<<"Invalid input"<<endl;
+	system("PAUSE");
+	system("CLS");
+
+	}
+
+}
