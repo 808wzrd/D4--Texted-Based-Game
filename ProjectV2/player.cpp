@@ -31,7 +31,12 @@ int Player::showHP()
 
 void Player::decreaseHP(int decrease)
 {
-	hp= hp-decrease;
+	hp = hp - decrease;
+}
+
+void Player::increaseHP(int increase)
+{
+	hp = hp + increase; 
 }
 
 string Player::showWeapon()
@@ -48,3 +53,9 @@ int Player::showAttack()
 {
     return attack;
 }
+
+void Player::setAttack(int newAttack)
+{
+	attack=newAttack;
+}
+

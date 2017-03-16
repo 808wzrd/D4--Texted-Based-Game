@@ -1,6 +1,7 @@
 #include "enemy.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -11,22 +12,22 @@ Enemy::Enemy(string newName, int newHP, int newAttack)
 	attack = newAttack;
 }
 
-string Enemy::showName() const
+string Enemy::showName()
 {
 	return name;
 }
 
-int Enemy::showHP() const
+int Enemy::showHP()
 {
 	return hp;
 }
 
 void Enemy::decreaseHP(int decrease)
 {
-	hp= hp-decrease;
+	hp = hp - decrease;
 }
 
-int Enemy::showAttack() const
+int Enemy::showAttack()
 {
 	return attack;
 }

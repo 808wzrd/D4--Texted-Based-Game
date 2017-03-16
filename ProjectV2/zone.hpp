@@ -1,15 +1,19 @@
 #include <string>
+#include <vector>
 using namespace std;
 
 class Zone
 {
 	public:
-	Zone(string, string*);
+	Zone(string);
 	string showName() const;
-	string* showEnemies() const;
-	void run();
+	vector<string> showEnemies() const;
+	vector<string> retrieveEnemies();
+	vector<string> showWeapons();
+	string chooseWeapon();
 	
 	private:
 	string name;
-	string* enemies; //????
+	vector<string> enemies;
+	vector<string> weapons;
 };

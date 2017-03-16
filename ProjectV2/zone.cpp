@@ -2,13 +2,13 @@
 #include "zone.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-Zone::Zone(string newName, string* newEnemies)
+Zone::Zone(string newName)
 {
 	name = newName;
-	enemies = newEnemies;   //??????
 }
 
 string Zone::showName() const
@@ -16,71 +16,74 @@ string Zone::showName() const
 	return name;
 }
 
-string* Zone::showEnemies() const
+vector<string> Zone::showEnemies() const
 {
 	return enemies;
 }
 
-void Zone::run()
+vector<string> Zone::showWeapons()
+{
+	return weapons;
+}
+
+string Zone::chooseWeapon()
 {
 	sqlite::sqlite db("project3.db");    // open database
     auto cur = db.get_statement();            // create query
     cur->set_sql( "SELECT NAME FROM weapon WHERE ZONE='" + name + "';");
     cur->prepare();                            // run query
-    string weapons[10];
-    int i=0;
+    
     while(cur->step()){                    // loop over results
-        weapons[i]=cur->get_text(0);
-        i++;
+        weapons.push_back(cur->get_text(0));
     }
+	
     system("clear");
-    cout<<"You have entered the "<< name<<endl;
-    cout<<"Choose your weapon if you want to survive [letters]: \n";
-    i=0;
-    for (const string &weapon : weapons){
-        if (weapon!=""){
-            //cout<<i+1<<": "<<weapon<<endl;
-            cout<<weapon<<endl;
-            i++;
+    cout<<"\nYou have entered the "<< name<<"!\n\n";
+    cout<<"Choose your weapon if you want to survive [letters]: \n\n";
+
+    for (int i=0; i<weapons.size();i++){
+        if (weapons[i]!=""){
+            cout<<i+1<<" : "<<weapons[i]<<endl;
         }
     }
     string mystr;
+    cout<<"\nChoose: ";
     cin>>mystr;
     bool fail=true;
     while(fail==true) {
-        if (mystr == weapons[0] || mystr == weapons[1]) {
-            fail=false;
-
-        }
-        else{
-            cout<<"Wrong input. Try again.\n";
-            cin>>mystr;
-        }
+		for (int i=0;i<weapons.size();i++){
+			if (mystr == weapons[i]){
+				fail=false;
+			}
+		}
+		if (fail==true){
+			cout<<"Wrong input. Try again.\n";
+            cout<<"Choose: ";
+        	cin>>mystr;	
+		}
     }
+	return mystr;
+}
 
-    cur = db.get_statement();
+vector<string> Zone::retrieveEnemies()
+{
+	sqlite::sqlite db("project3.db");
+	auto cur = db.get_statement();
     cur->set_sql( "SELECT ENEMY_ID FROM enemy WHERE ZONE='" + name + "';");
     cur->prepare();
-    string enemies[10];
-    i=0;
+	
     while(cur->step()){                    // loop over results
-        enemies[i]=cur->get_text(0);
-        i++;
-        cout<<cur->get_text(0)<<endl;
+        enemies.push_back(cur->get_text(0));
     }
 
     system("clear");
-    cout << "Now use that " << mystr << " and kill the " << enemies[0] <<"!!!" << ".\n";
-
-
+    cout << "Now use that weapon and kill the ";
+	for (int i=0;i<enemies.size();i++){
+		cout<<enemies[i]<<", ";
+	}
+	cout<<"!!!\n\n";
+	
+	return enemies;    //returns possible enemies
 }
-
-
-
-
-
-
-
-
 
 

@@ -11,7 +11,9 @@ class Player
 	void pickWeapon(string newWeapon);
 	int showHP();
 	void decreaseHP(int decrease);
+	void increaseHP(int increase);
 	int showAttack();
+	void setAttack(int newAttack);
 	
 	private:
 	int hp, attack;

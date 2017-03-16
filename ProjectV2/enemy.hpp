@@ -5,9 +5,9 @@ class Enemy
 {
 	public:
 	Enemy(string, int, int);
-	string showName() const;
-	int showHP() const;
-	int showAttack() const;
+	string showName();
+	int showHP();
+	int showAttack();
 	void decreaseHP(int decrease);
 	
 	private:
