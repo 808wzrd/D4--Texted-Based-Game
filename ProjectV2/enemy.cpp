@@ -31,3 +31,12 @@ int Enemy::showAttack()
 {
 	return attack;
 }
+
+vector<string> Enemy::checkStatus()
+{
+	//change all to string
+	string hpString = to_string(hp);
+	string attackString = to_string(attack);
+	vector<string> status = {name, hpString, attackString};
+	return status;
+}

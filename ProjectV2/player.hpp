@@ -14,8 +14,14 @@ class Player
 	void increaseHP(int increase);
 	int showAttack();
 	void setAttack(int newAttack);
-	
+	vector<string> checkStatus();
+	void addToInventory(string weapon);
+	vector<string> showInventory();
+	void sortInventory();
+
+
 	private:
 	int hp, attack;
 	string name, weapon, gender;
+	vector<string> inventory;
 };

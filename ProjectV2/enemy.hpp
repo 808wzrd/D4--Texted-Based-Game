@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 using namespace std;
 
 class Enemy
@@ -9,6 +10,8 @@ class Enemy
 	int showHP();
 	int showAttack();
 	void decreaseHP(int decrease);
+	vector<string> checkStatus();
+
 	
 	private:
 	int hp, attack;

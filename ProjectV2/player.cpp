@@ -59,3 +59,39 @@ void Player::setAttack(int newAttack)
 	attack=newAttack;
 }
 
+vector<string> Player::checkStatus()
+{
+	string hpString = to_string(hp);
+	string attackString = to_string(attack);
+	vector<string> status = {name, gender, hpString, weapon, attackString};
+	return status;
+}
+
+void Player::addToInventory(string weapon)
+{
+	inventory.push_back(weapon);
+}
+
+vector<string> Player::showInventory()
+{
+	return inventory;
+}
+
+void Player::sortInventory()
+{
+	int minPos;
+	string temp;
+	for (int i=0;i< inventory.size()-1;i++) {
+		minPos = i;
+		for (int j = i + 1; j < inventory.size(); j++) {
+			if (inventory[j] < inventory[minPos]) {
+				minPos = j;
+			}
+		}
+		if (minPos != i) {
+			temp = inventory[i];
+			inventory[i] = inventory[minPos];
+			inventory[minPos] = temp;
+		}
+	}
+}

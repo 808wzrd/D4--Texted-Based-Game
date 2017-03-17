@@ -4,7 +4,7 @@
 #include "player.hpp"
 #include "enemy.hpp"
 #include "zone.hpp"
-#include "libsqlite.hpp"                    // sqlite library
+#include "libsqlite.hpp"
 
 using namespace std;
 
@@ -32,26 +32,6 @@ void mainMenu()
     }
 }
 
-string userAuthenticaiton()
-{
-    system("clear");
-	string mystr;
-	cout << "What's your name?\n\n";
-	cout << "Enter: ";
-    cin>>mystr;
-	return mystr;
-}
-
-void gameOver()
-{
-	system("clear");
-	cout<<"GAME OVER\n You couldn't defeat all monsters"<<endl;
-	cout<<"Press any key to exit"<<endl;
-	string input;
-	cin>>input;
-	exit(0);
-}
-
 int userChoice(vector<string> options)
 {
 	int userOutput;
@@ -62,6 +42,59 @@ int userChoice(vector<string> options)
 	cout<<"\nEnter: ";
 	cin>>userOutput;
 	cout<<userOutput<<endl;
+	return userOutput;
+}
+
+vector<string> userAuthentication()
+{
+    system("clear");
+	string name;
+	cout << "What's your name?\n\n";
+	cout << "Enter: ";
+	cin>>name;
+	cout << "Choose your gender: "<<endl;
+	vector<string> options ={"Male", "Female"};
+	int output = userChoice(options);
+	vector<string> user = {name, options[output-1]};
+	return user;
+}
+
+void gameOver()
+{
+	system("clear");
+	cout<<"GAME OVER\nYou couldn't defeat all monsters"<<endl;
+	cout<<"Press enter key to exit"<<endl;
+	system("read");
+	exit(0);
+}
+
+int printAllStatus(Player* p1, Enemy* e1)
+{
+	vector<string> playerStatus = p1->checkStatus();
+	vector<string> enemyStatus = e1->checkStatus();
+	system("clear");
+	cout<<"Player's Name: "<<playerStatus[0]<<endl;
+	cout<<"Player's Gender: "<<playerStatus[1]<<endl;
+	cout<<"Player's HP: "<<playerStatus[2]<<endl;
+	cout<<"Player's Weapon: "<<playerStatus[3]<<endl;
+	cout<<"Player's Attack: "<<playerStatus[4]<<endl;
+	cout<<"Player's Inventory: ";
+	vector<string> inventory=p1->showInventory();
+	for(string i:inventory){
+		cout<<" "<<i;
+	}
+
+	cout<<"\n\nEnemy's Name: "<<enemyStatus[0]<<endl;
+	cout<<"Enemy's HP: "<<enemyStatus[1]<<endl;
+	cout<<"Enemy's Attack: "<<enemyStatus[2]<<"\n\n";
+	
+	vector<string> options = {"Continue Battle", "Quit", "Sort Inventory"};
+	int userOutput = userChoice(options);
+	userOutput-=1;
+	if (userOutput == 2){
+		p1->sortInventory();
+	}
+	system("clear");
 	return userOutput;
 }
 
@@ -106,13 +139,27 @@ string battle(Player* p1, vector<Enemy*> enemyObjects)
 	string turn = "player";
 	string input;
 	for (int i=0; i<enemyObjects.size();i++){
-		cout<<"You are facing a "<<enemyObjects[i]->showName()<<"\n\n";
+		cout<<"You are facing a "<<enemyObjects[i]->showName();
+		cout<<"[Atk:"<<enemyObjects[i]->showAttack()<<", HP:"<<enemyObjects[i]->showHP()<<"]"<<endl;
 		while (p1->showHP() >0 && enemyObjects[i]->showHP()>0){
 			if (turn == "player"){
-				cout<<"It's your turn! Choose one of the options!\n1: Attack\n2: Heal\n3: Surrender\n";
+				cout<<"It's your turn! Choose one of the options!\n0: Check Status\n1: Attack\n2: Heal\n3: Surrender\n";
 				cout<<"Choose: ";
 				cin>>input;
-				if (input=="1" || input=="Attack"){
+				if (input=="0" || input=="Check"){
+					int statusOutput = printAllStatus(p1, enemyObjects[i]);
+					while (statusOutput == 2){
+						statusOutput = printAllStatus(p1, enemyObjects[i]);
+					}
+					if (statusOutput == 0){
+						continue;
+					}
+					else if (statusOutput == 1){
+						winner="enemy";
+						return winner;
+					}
+				}
+				else if (input=="1" || input=="Attack"){
 					enemyObjects[i]->decreaseHP(p1->showAttack());
 					cout<<"Enemy HP is now: "<<enemyObjects[i]->showHP()<<endl;
 				}
@@ -127,11 +174,15 @@ string battle(Player* p1, vector<Enemy*> enemyObjects)
 				turn="enemy";
 			}
 			else if (turn == "enemy"){
-				cout<<"It's enemy's turn!"<<endl;
+				cout<<"\nIt's enemy's turn!"<<endl;
 				cout<<"The enemy decided to attack"<<endl;
 				p1->decreaseHP(enemyObjects[i]->showAttack());
 				cout<<"Your HP is now: "<<p1->showHP()<<endl;
 				turn="player";
+
+				cout<<"\nPress enter to continue"<<endl;
+				system("read");
+				system("clear");
 			}
 
 			if (p1->showHP()<=0){
@@ -152,13 +203,12 @@ int main(int argc, char* argv[])
 {
 	mainMenu();
 		
-	string name;
-	name = userAuthenticaiton();
+	vector<string> user = userAuthentication();
     system("clear");
     cout << "Hello\n\n";
-	Player *p1 = new Player(name, 100, "None", "Male", 0);
-	
-	vector <string> options = {"Bedroom", "Entrance", "Hallway", "Kitchen", "Study"};
+	Player *p1 = new Player(user[0], 25, "None", user[1], 0);
+
+	vector<string> options = {"Bedroom", "Entrance", "Hallway", "Kitchen", "Study"};
 	int length = 4;
 	
 
@@ -180,6 +230,7 @@ int main(int argc, char* argv[])
 		Zone z1(output);
 		string weapon = z1.chooseWeapon();
 		p1->pickWeapon(weapon);
+		p1->addToInventory(weapon);
 		p1->setAttack(10);
 		vector<string> enemies = z1.retrieveEnemies();
 		vector <Enemy*> enemyObjects = retrieveEnemy(enemies);
@@ -197,21 +248,7 @@ int main(int argc, char* argv[])
 	system("clear");
 	cout<<"Well. It seems that you defeated all monsters."<<endl;
 	cout<<"Well done!"<<endl;
-	cout<<"Press any key to exit";
-	string exit;
-	cin>>exit;
+	cout<<"Press enter to exit";
+	system("read");
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
