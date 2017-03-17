@@ -19,7 +19,7 @@ cin >> choice;
 
 if(choice==1)
 	{
-	system("CLS");//all system commands are only used by windows,sorry mac :)
+	system("CLS");
 	cout<<"Starting game";
 	system("PAUSE");
 	system("CLS");
@@ -37,7 +37,7 @@ else if (choice==3)
 	
 
 	}
-else if (choice>3||choice<1)//user input validation
+else if (choice>3||choice<1)
 	{
 	system("CLS");
 	cout<<"Invalid input"<<endl;
